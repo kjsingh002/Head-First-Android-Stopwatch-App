@@ -17,7 +17,7 @@ public class MainActivity extends AppCompatActivity {
     private Button stopButton;
     private Button resetButton;
     private Handler handler;
-    private boolean running = false;
+    private boolean running = false,wasRunning = false;
     private int seconds = 0;
 
     @Override
@@ -78,5 +78,20 @@ public class MainActivity extends AppCompatActivity {
         super.onSaveInstanceState(outState);
         outState.putInt("seconds",seconds);
         outState.putBoolean("running",running);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        wasRunning = running;
+        running = false;
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (wasRunning){
+            running = wasRunning;
+        }
     }
 }
